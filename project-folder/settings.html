@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Settings | Swad Sawara</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fffaf3;
+    --text: #111827;
+    --card: #ffffff;
+    --accent: #16a34a;
+    --brand: #b45309;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* 🌟 Background watermark logo */
+  .bg-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.08;
+    width: 70vw;
+    max-width: 800px;
+    pointer-events: none;
+    z-index: -1;
+    filter: drop-shadow(0 0 20px rgba(0,0,0,0.25));
+  }
+
+  header {
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 40px;
+    color: var(--brand);
+    margin: 0;
+  }
+
+  .container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  label {
+    font-weight:600;
+    color:var(--brand);
+    display:block;
+    margin-bottom:8px;
+  }
+
+  select {
+    width:100%;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+  }
+
+  .btn {
+    display:block;
+    margin-top:20px;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+  }
+
+  .btn:hover { opacity:0.9; }
+
+  nav {
+    text-align:center;
+    margin-top:20px;
+  }
+
+  nav a {
+    color:var(--accent);
+    text-decoration:none;
+    margin:0 10px;
+    font-weight:600;
+  }
+
+  nav a:hover { text-decoration:underline; }
+
+  /* 🌙 Dark theme */
+  body.dark {
+    --bg: #1f2937;
+    --text: #f3f4f6;
+    --card: #374151;
+    --accent: #22c55e;
+    --brand: #fbbf24;
+  }
+</style>
+</head>
+<body onload="applySavedTheme()">
+  <!-- 🌟 Background watermark logo -->
+  <img src="logo.png" alt="Swad Sawara Watermark" class="bg-logo">
+
+  <header>
+    <img src="logo.png" alt="Swad Sawara Logo" class="logo-img">
+    <h1>⚙️ Settings</h1>
+  </header>
+
+  <div class="container">
+    <label>Choose Theme</label>
+    <select id="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+
+    <button class="btn" onclick="saveTheme()">💾 Save Theme</button>
+
+    <nav>
+      <a href="index.html">🏠 Home</a> |
+      <a href="cart.html">🛒 Cart</a> |
+      <a href="profile.html">👤 Profile</a>
+    </nav>
+  </div>
+
+<script>
+function applySavedTheme() {
+  const theme = localStorage.getItem('theme') || 'light';
+  document.body.classList.toggle('dark', theme === 'dark');
+  document.getElementById('theme').value = theme;
+}
+
+function saveTheme() {
+  const selected = document.getElementById('theme').value;
+  localStorage.setItem('theme', selected);
+  document.body.classList.toggle('dark', selected === 'dark');
+  alert('✅ Theme saved successfully!');
+}
+</script>
+</body>
+</html>

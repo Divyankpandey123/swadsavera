@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile | Swad Sawara</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:#fffaf3;
+    color:#333;
+    transition:background 0.3s, color 0.3s;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .bg-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.08;
+    z-index: -1;
+    width: 70vw;
+    max-width: 800px;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.2));
+    pointer-events: none;
+  }
+
+  header {
+    background:#fff;
+    text-align:center;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h1 {
+    font-family:'Dancing Script',cursive;
+    color:#b45309;
+    font-size:40px;
+    margin:0;
+  }
+
+  .logo-img {
+    width:50px;
+    height:50px;
+    object-fit:contain;
+  }
+
+  .container {
+    max-width:500px;
+    margin:40px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  label { font-weight:600; color:#b45309; }
+  input, textarea {
+    width:100%;
+    padding:8px;
+    margin:6px 0 16px;
+    border-radius:8px;
+    border:1px solid #ddd;
+  }
+
+  .btn {
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+  }
+
+  .btn:hover { opacity:0.9; }
+
+  nav {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:10px;
+  }
+
+  nav button {
+    background:transparent;
+    border:2px solid #16a34a;
+    color:#16a34a;
+    border-radius:6px;
+    padding:5px 10px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+
+  nav button:hover {
+    background:#16a34a;
+    color:white;
+  }
+
+  footer {
+    text-align:center;
+    padding:20px;
+    color:#6b7280;
+  }
+
+  body.dark {
+    background:#1f2937 !important;
+    color:#f3f4f6 !important;
+  }
+
+  body.dark header, body.dark .container {
+    background:#374151 !important;
+    color:#f3f4f6 !important;
+    box-shadow:0 2px 8px rgba(255,255,255,0.1);
+  }
+
+  body.dark .btn, body.dark nav button {
+    border-color:#22c55e !important;
+    color:#22c55e !important;
+  }
+
+  body.dark .btn:hover, body.dark nav button:hover {
+    background:#22c55e !important;
+    color:#fff !important;
+  }
+</style>
+</head>
+
+<body onload="loadProfile(); applySavedTheme();">
+  <img src="logo.png" alt="Swad Sawara Background Logo" class="bg-logo">
+
+  <header>
+    <img src="logo.png" alt="Swad Sawara Logo" class="logo-img">
+    <h1>Profile</h1>
+  </header>
+
+  <nav>
+    <button onclick="window.location.href='cart.html'">⬅ Back</button>
+    <button onclick="window.location.href='index.html'">🏠 Home</button>
+    <button onclick="window.location.href='settings.html'">⚙️ Settings</button>
+  </nav>
+
+  <div class="container">
+    <label>Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="you@example.com">
+
+    <label>Phone</label>
+    <input type="text" id="phone" placeholder="+91 XXXXX XXXXX">
+
+    <label>Address</label>
+    <textarea id="address" rows="3" placeholder="Your delivery address"></textarea>
+
+    <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
+  </div>
+
+  <footer>© <span id="year"></span> Swad Sawara</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function loadProfile() {
+      const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+      if (profile.name) document.getElementById('name').value = profile.name;
+      if (profile.email) document.getElementById('email').value = profile.email;
+      if (profile.phone) document.getElementById('phone').value = profile.phone;
+      if (profile.address) document.getElementById('address').value = profile.address;
+    }
+
+    function saveProfile(){
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        address: document.getElementById('address').value.trim()
+      };
+      if (!data.name || !data.phone || !data.address) {
+        alert("⚠️ Please fill all required fields (Name, Phone, Address).");
+        return;
+      }
+      localStorage.setItem('profile', JSON.stringify(data));
+      alert("✅ Profile saved successfully!");
+      window.location.href = "cart.html";
+    }
+
+    function applySavedTheme(){
+      const theme = localStorage.getItem('theme');
+      if(theme === 'dark') document.body.classList.add('dark');
+    }
+
+    // 💬 WhatsApp Integration Example (cart.html will use this)
+    function sendWhatsAppMessage(cartItems) {
+      const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+      if (!profile.name) {
+        alert("⚠️ Please complete your profile before checkout.");
+        window.location.href = "profile.html";
+        return;
+      }
+
+      // ✅ Replace this with YOUR WhatsApp number
+      const phoneNumber = "916394720982"; // ← your number here (with country code, no + sign)
+
+      const productList = cartItems.map(item =>
+        `${item.name} x${item.quantity} = ₹${item.price * item.quantity}`
+      ).join("%0A");
+
+      const message = 
+`Hi Swad Sawara! 👋
+I want to order the following items:%0A
+${productList}%0A%0A
+📦 Name: ${profile.name}
+📞 Phone: ${profile.phone}
+🏠 Address: ${profile.address}`;
+
+      const url = `https://wa.me/${phoneNumber}?text=${message}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
